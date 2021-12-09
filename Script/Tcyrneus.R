@@ -21,6 +21,10 @@ library("summarytools")
 library("tidyverse")
 library("vegan")
 
+# Functions ---------------------------------------------------------------
+
+source("Script/functions.r")
+
 #################################################################
 # Loading the data ----------------------------------------------
 #################################################################
@@ -28,7 +32,6 @@ library("vegan")
 ### loading the trait data ###
 intraspecific <- read.csv("Data/db_morpho_intraspecific.csv", sep ="\t", dec = ",", as.is = FALSE)
 trait         <- read.csv("Data/Database_Traits_Only_Troglohyphantes.csv", sep="\t", dec=",", as.is = FALSE) 
-#ita    <- read.csv("troglo_italy.csv", sep="\t", dec=",", as.is = FALSE) 
 
 ### Analysing Intraspecific data
 str(intraspecific)
@@ -103,21 +106,76 @@ fdist <- gawdis::gawdis(data.frame(m_intra),
                         groups.weight = TRUE)
 
 saveRDS(fdist,"functional_distance.rds") #storing the data
-fdist <- readRDS("functional_distance.rds") ; rm(groups_traits)
+
+fdist <- readRDS("Data/functional_distance.rds") ; rm(groups_traits)
+
+
+# Principal Coordinate Analysis -------------------------------------------
 
 # PCoA
 ord <- cmdscale(fdist, k = 3)
-HV <- data.frame(ord, species = m_intra2$species)
+HV <- data.frame(ord, species = m_intra2$species) ; colnames(HV)[1:3] <- c("PC1", "PC2","PC3")
 
-colnames(HV)[1:3] <- c("PC1", "PC2","PC3")
+# PC fit
+(fit12 <- vegan::envfit(ord, m_intra, choices=c(1:2), na.rm = TRUE))
+(fit13 <- vegan::envfit(ord, m_intra, choices=c(1:3), na.rm = TRUE))
+(fit23 <- vegan::envfit(ord, m_intra, choices=c(2:3), na.rm = TRUE))
 
 dev.off()
 par(mfrow=c(1,1), mar=c(rep(2,4)))
-fit <- vegan::envfit(ord, m_intra, na.rm = TRUE)
+fit <- vegan::envfit(ord, m_intra, choices=c(1,2), na.rm = TRUE)
 {
   plot(ord)
   trait_pos <- get_position(fit, add = TRUE)
 }
+
+trait_pos <- data.frame(trait_pos) %>%
+  rownames_to_column("Trait")
+
+# Plot
+myCol<-viridis::viridis(n=6, option="B") #Make Color palette
+
+(plot_traits <-   ggplot(HV, aes(PC1, PC2)) +
+    stat_density_2d(
+      aes(fill = ..level..),
+      geom = "polygon",
+      colour = NA,
+      alpha = .5,
+     # h = .55
+    ) +
+    geom_hline(aes(yintercept = 0), linetype = 3, colour = "gray70") +
+    geom_vline(aes(xintercept = 0), linetype = 3, colour = "gray70") +
+    geom_point(
+      data = trait_pos,
+      aes(x = Dim1, y = Dim2),
+      shape = 21,
+      fill = "white",
+      size = 2.5
+    ) +
+    geom_point(
+      data = trait_pos,
+      aes(x = Dim1, y = Dim2),
+      shape = 19,
+      colour = "black",
+      size = 1
+    ) +
+    scale_fill_gradientn(colours = rev(myCol)) +
+    ggrepel::geom_text_repel(data = trait_pos, aes(x = Dim1, y = Dim2, label = Trait)) +
+    theme(
+      panel.background = element_rect(
+        fill = NA,
+        colour = "black",
+        size = 1,
+        linetype = "solid"
+      ),
+      panel.grid = element_blank(),
+      legend.position = "none"
+    )  +
+    labs(x = "PCoA 1", y = "PCoA 2") +
+    #ylim(-.46, .36) + xlim(-.46, .36) +
+    coord_fixed())
+
+# Hypervolume analysis ----------------------------------------------------
 
 ## Hypervolume construction (all species)
 
@@ -175,7 +233,7 @@ write.table(round(overlap_matrix,2), "Table_X.csv", sep = "\t")
 
 # Mapping traits in relation to all Troglohyphantes  ----------------------
 
-trait_m3 <- trait %>% select(
+trait_m3 <- trait %>% dplyr::select(
     Genus_species,
     Ecological_classification,
     Leg_elongation = Femur_I_length_avg/Prosoma_length_avg,
@@ -208,15 +266,14 @@ db_ggplot2 <- data.frame(Species = rep(trait_m3$Genus_species,3),
                          
                          Trait = c(rep("Body length",   nrow(trait_m2)),
                                    rep("Femur elongation",nrow(trait_m2)),
-                                   rep("Eye reduction (ratio)",nrow(trait_m2))))
-
+                                   rep("Eye development",nrow(trait_m2))))
 
 db_ggplot2 %>% ggplot(aes(y=Value, x =1)) + facet_wrap( ~ Trait, nrow = 1, ncol = 3, scale ="free") +
   geom_violin(alpha =0.25,outlier.alpha = 0,width=0.2, col = "grey70")+
   labs(xlab = "",ylab = "")+
   geom_point(size = 3, alpha = 0.15) + 
   geom_point(data= db_ggplot2[db_ggplot2$Species == "Troglohyphantes cyrnaeus",], 
-             aes(y=Value, x =1), size = 3, col = "red",fill = "red", alpha = 0.9) + theme_classic() +
+             aes(y=Value, x =1), size = 5, shape = 21,col = "black",fill = "red", alpha = 0.9) + theme_classic() +
   theme(axis.title.y=element_blank(),
         axis.title.x=element_blank(),
         axis.text.x=element_blank(),
