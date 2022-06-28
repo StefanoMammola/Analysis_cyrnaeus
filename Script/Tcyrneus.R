@@ -117,9 +117,9 @@ ord <- cmdscale(fdist, k = 3)
 HV <- data.frame(ord, species = m_intra2$species) ; colnames(HV)[1:3] <- c("PC1", "PC2","PC3")
 
 # PC fit
-(fit12 <- vegan::envfit(ord, m_intra, choices=c(1:2), na.rm = TRUE))
-(fit13 <- vegan::envfit(ord, m_intra, choices=c(1:3), na.rm = TRUE))
-(fit23 <- vegan::envfit(ord, m_intra, choices=c(2:3), na.rm = TRUE))
+(fit12 <- vegan::envfit(ord, m_intra, choices=c(1,2), na.rm = TRUE))
+(fit13 <- vegan::envfit(ord, m_intra, choices=c(1,3), na.rm = TRUE))
+(fit23 <- vegan::envfit(ord, m_intra, choices=c(2,3), na.rm = TRUE))
 
 dev.off()
 par(mfrow=c(1,1), mar=c(rep(2,4)))
@@ -278,3 +278,9 @@ db_ggplot2 %>% ggplot(aes(y=Value, x =1)) + facet_wrap( ~ Trait, nrow = 1, ncol 
         axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
+
+# Summary stats
+quantile(trait_m3$Eye_reduction_ratio, na.rm = T) ; trait_m3[trait_m3$Genus_species == "Troglohyphantes cyrnaeus",]$Eye_reduction_ratio
+quantile(trait_m3$Body_length_avg, na.rm = T) ; trait_m3[trait_m3$Genus_species == "Troglohyphantes cyrnaeus",]$Body_length_avg
+quantile(trait_m3$Leg_elongation, na.rm = T) ; trait_m3[trait_m3$Genus_species == "Troglohyphantes cyrnaeus",]$Leg_elongation
+
