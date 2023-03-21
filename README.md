@@ -12,7 +12,7 @@ Mammola, S., Arnedo, M. A., Fišer, C., Cardoso, P., Dejanaz, A. J., & Isaia, M.
 
 Mammola, S., Pavlek, M., Huber, B. A., Isaia, M., Ballarin, F., Tolve, M., ... & Cardoso, P. (2022). A trait database and updated checklist for European subterranean spiders. Scientific data, 9(1), 236.
 
-All these data are also deposited in the word spider catalog.
+All these data are also deposited in the World Spider Trait Database.
 
 --- Folder "Script" contains the R scripts used to run the ecological analysis.
 
