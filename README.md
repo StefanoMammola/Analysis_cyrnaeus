@@ -19,10 +19,3 @@ All these data are also deposited in the word spider catalog.
 --- Folder "Figure" contains main figure generated after the ecologicla analysis.
 
 --- Folder "Data trees" contains all the matrices and files used for phylogenetic analyses (see read_me_trees.txt for details).
-=======
-R code and data to reproduce the ecological analyses in:
-
-Isaia M, Mammola S., Arnedo MA 2023. A relict subterranean spider (Araneae: Linyphiidae: Troglohyphantes) reveals a unique component of the biogeography of Corsica. Insect Systematics and Diversity, submitted.
-
- Data are also deposited in the World Spider Trat database.
->>>>>>> 0f143f803cccd0b9c4d81583209bc67e3e4be29d
