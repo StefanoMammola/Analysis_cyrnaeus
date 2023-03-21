@@ -19,8 +19,3 @@ All these data are also deposited in the word spider catalog.
 --- Folder "Figure" contains main figure generated after the ecologicla analysis.
 
 --- Folder "Data trees" contains all the matrices and files used for phylogenetic analyses (see read_me_trees.txt for details).
-
-
-
-
-
