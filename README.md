@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Analysis pipeline for:
 
 Isaia M, Mammola S., Arnedo MA (2023). A relict subterranean spider (Araneae: Linyphiidae: Troglohyphantes) reveals a unique component of the biogeography of Corsica. Insect Systematics and Diversity.
