@@ -1,6 +1,6 @@
-#
-
-# Isaia et al., in prep.
+#####################
+# Isaia M, Mammola S., Arnedo MA (2023). A relict subterranean spider (Araneae: Linyphiidae: Troglohyphantes) reveals a unique component of the biogeography of Corsica. Insect Systematics and Diversity.
+#####################
 
 ## ------------------------------------------------------------------------
 # 'R script to reproduce the analyses'
@@ -106,9 +106,7 @@ fdist <- gawdis::gawdis(data.frame(m_intra),
                         groups.weight = TRUE)
 
 saveRDS(fdist,"functional_distance.rds") #storing the data
-
 fdist <- readRDS("Data/functional_distance.rds") ; rm(groups_traits)
-
 
 # Principal Coordinate Analysis -------------------------------------------
 
@@ -284,3 +282,4 @@ quantile(trait_m3$Eye_reduction_ratio, na.rm = T) ; trait_m3[trait_m3$Genus_spec
 quantile(trait_m3$Body_length_avg, na.rm = T) ; trait_m3[trait_m3$Genus_species == "Troglohyphantes cyrnaeus",]$Body_length_avg
 quantile(trait_m3$Leg_elongation, na.rm = T) ; trait_m3[trait_m3$Genus_species == "Troglohyphantes cyrnaeus",]$Leg_elongation
 
+#end

@@ -1,0 +1,12 @@
+#nexus
+begin sets;
+	CHARSET 16s=cors_16_xs.fasta: *;
+	CHARSET 18s=cors_18_xs.fasta: *;
+	CHARSET 28s=cors_28_xs.fasta: *;
+	CHARSET c1_1=cors_c1_xs.fasta: 3-.\3;
+	CHARSET c1_2=cors_c1_xs.fasta: 1-.\3;
+	CHARSET c1_3=cors_c1_xs.fasta: 2-.\3;
+	CHARSET h3_1=cors_h3_xs.fasta: 3-.\3;
+	CHARSET h3_2=cors_h3_xs.fasta: 1-.\3;
+	CHARSET h3_3=cors_h3_xs.fasta: 2-.\3;
+   end;
